@@ -35,7 +35,7 @@ let hasBeenClicked = false;
 /**
 	 * @param {boolean} [hasBeenClicked]
 	 */
-    
+
 // function to test if the form is valid
 // testing all the fields
 function handleSubmission(hasBeenClicked) {
@@ -110,7 +110,7 @@ $: isValidNoChars = validateNochars(name);
 main {
     width: 100%;
     height: 100vh;
-    background-image: url(../assets/img/concept.png);
+    background-image: url(../assets/img/nandhu-kumar.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -165,7 +165,7 @@ section {
 
 .hall {
     width: 70%;
-    background-image: url(../assets/img/concept.png);
+    background-image: url(../assets/img/nandhu-kumar.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
