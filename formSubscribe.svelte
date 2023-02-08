@@ -35,41 +35,45 @@ let sidebar_show = true;
 let name = "";
 let email = "";
 let password = "";
+// let disabled = true;
 let hasBeenClicked = false;
-let disabled = true;
 
 // submit form
-function handleSubmission() {
-    hasBeenClicked = true;
-    if (isValidName && isValidEmail && isValidPassword && isValidNoChars) {
+/**
+	 * @param {boolean} [hasBeenClicked]
+	 */
+function handleSubmission(hasBeenClicked) {
+       
+        // validate
+        if (hasBeenClicked && isValidName && isValidEmail && isValidPassword && isValidNoChars) {
+            // trim
+            let trimName = name.trim();
+            let trimEmail = email.trim();
+            let trimPassword = password.trim();
 
-        // trim
-        let trimName = name.trim();
-        let trimEmail = email.trim();
-        let trimPassword = password.trim();
-
-        // firebase
-        console.log('firebase', trimEmail, trimPassword);
-        // Initialize Firebase
-        const auth = getAuth();
-        const db = getFirestore();
-        // Create user
-        createUserWithEmailAndPassword(auth, trimEmail, trimPassword)
-            .then((userCredential) => {
-                // Subribed user
-                const user = userCredential.user;
-                // ... Route redirection
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.table(errorCode, errorMessage);
-            });
-    }
-}
-
-function handleChange() {
-    disabled = !disabled
+            // Initialize Firebase
+            const auth = getAuth();
+            const db = getFirestore();
+            // Create user
+            createUserWithEmailAndPassword(auth, trimEmail, trimPassword)
+                .then((userCredential) => {
+                    // Subribed user
+                    const user = userCredential.user;
+                    alert('Subscribed!');
+                    // ... Route redirection
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // console.table(errorCode, errorMessage);
+                    // See error codes
+                });
+        } 
+        
+        if (hasBeenClicked && !isValidName || !isValidEmail || !isValidPassword || !isValidNoChars) {
+            hasBeenClicked = false;
+            sidebar_show = true;
+        }
 }
 
 function validateEmail(email) {
@@ -82,14 +86,11 @@ function validateNochars(name) {
     return regex.test(name);
 }
 
-function resetClick() {
-    hasBeenClicked = false;
-}
-
 $: isValidName = name.length > 0;
 $: isValidEmail = validateEmail(email);
 $: isValidPassword = password.length >= 8;
 $: isValidNoChars = validateNochars(name);
+
 </script>
 
 <style>
@@ -102,6 +103,8 @@ $: isValidNoChars = validateNochars(name);
 * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
 }
 
 @font-face {
@@ -379,17 +382,23 @@ label {
                     <!-- svelte-ignore a11y-label-has-associated-control -->
                     <label>Password</label>
                     <input type="password" bind:value={password} />
-                    {#if password.length >=8}
+                    {#if password && password.length >=8}
                     ✔️
                     {/if}
                     {#if hasBeenClicked && !isValidName && !isValidEmail && !isValidPassword}
                     <Sidebar bind:show={sidebar_show}/>
                     {/if}
+              
 
                     <p class="lambda-text">Vous avez déjà un compte ? <br />
                         <span class="connectez">Connectez vous</span>
                     </p>
-                    <button class="button button1" on:click|preventDefault|stopPropagation|nonpassive={handleSubmission}>
+                    <button class="button button1" on:click={(event) => {
+                        hasBeenClicked = true;
+                        handleSubmission(hasBeenClicked);
+                        event.stopPropagation();
+                    }}>
+
                         <span class="button-content">S'inscrire</span>
                     </button>
                 </div>
