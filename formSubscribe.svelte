@@ -336,7 +336,7 @@ label {
     }
 }
 
-/* For 1366 Resolution */
+/* For Laptop Resolution */
 @media only screen and (min-width: 1000px) and (max-width: 1550px) {
 
     h1 {
