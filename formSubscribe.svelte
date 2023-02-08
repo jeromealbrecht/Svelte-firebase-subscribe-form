@@ -184,7 +184,6 @@ input {
 .input-d-wrappers {
     display: flex;
     align-items: center;
-    /* height: 57vh; */
 }
 
 .input-wrapper {
