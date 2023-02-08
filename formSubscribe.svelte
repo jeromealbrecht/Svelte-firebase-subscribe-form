@@ -337,7 +337,7 @@ label {
 }
 
 /* For 1366 Resolution */
-@media only screen and (min-width: 1030px) and (max-width: 1366px) {
+@media only screen and (min-width: 1000px) and (max-width: 1550px) {
 
     h1 {
         font-size: 1.5rem;
