@@ -6,10 +6,6 @@ import {
 } from "firebase/app";
 import {
     getFirestore,
-    collection,
-    onSnapshot,
-    updateDoc,
-    addDoc
 } from "firebase/firestore";
 import {
     firebaseConfig
@@ -17,8 +13,6 @@ import {
 import {
     getAuth,
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    sendSignInLinkToEmail
 } from "firebase/auth";
 
 const app = initializeApp(firebaseConfig);
@@ -35,45 +29,46 @@ let sidebar_show = true;
 let name = "";
 let email = "";
 let password = "";
-// let disabled = true;
 let hasBeenClicked = false;
 
 // submit form
 /**
 	 * @param {boolean} [hasBeenClicked]
 	 */
+    
+// function to test if the form is valid
+// testing all the fields
 function handleSubmission(hasBeenClicked) {
-       
-        // validate
-        if (hasBeenClicked && isValidName && isValidEmail && isValidPassword && isValidNoChars) {
-            // trim
-            let trimName = name.trim();
-            let trimEmail = email.trim();
-            let trimPassword = password.trim();
+    // validate
+    if (hasBeenClicked && isValidName && isValidEmail && isValidPassword && isValidNoChars) {
+        // trim
+        let trimName = name.trim();
+        let trimEmail = email.trim();
+        let trimPassword = password.trim();
 
-            // Initialize Firebase
-            const auth = getAuth();
-            const db = getFirestore();
-            // Create user
-            createUserWithEmailAndPassword(auth, trimEmail, trimPassword)
-                .then((userCredential) => {
-                    // Subribed user
-                    const user = userCredential.user;
-                    alert('Subscribed!');
-                    // ... Route redirection
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    // console.table(errorCode, errorMessage);
-                    // See error codes
-                });
-        } 
-        
-        if (hasBeenClicked && !isValidName || !isValidEmail || !isValidPassword || !isValidNoChars) {
-            hasBeenClicked = false;
-            sidebar_show = true;
-        }
+        // Initialize Firebase
+        const auth = getAuth();
+        const db = getFirestore();
+        // Create user
+        createUserWithEmailAndPassword(auth, trimEmail, trimPassword)
+            .then((userCredential) => {
+                // Subribed user
+                const user = userCredential.user;
+                alert('Subscribed!');
+                // ... Route redirection
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // console.table(errorCode, errorMessage);
+                // See error codes
+            });
+    } 
+    
+    if (hasBeenClicked && !isValidName || !isValidEmail || !isValidPassword || !isValidNoChars) {
+        hasBeenClicked = false;
+        sidebar_show = true;
+    }
 }
 
 function validateEmail(email) {
